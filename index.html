@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AbriCar – Abri, recharge et services intelligents pour votre voiture</title>
+  <link rel="stylesheet" href="style.css" />
+  <!-- Leaflet.js -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Exo+2:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+<!-- ===================== NAVIGATION ===================== -->
+<nav class="navbar" id="navbar">
+  <div class="nav-container">
+    <div class="nav-logo">
+      <img src="AbriCar.jpeg" alt="AbriCar Logo" class="logo-img" />
+    </div>
+    <ul class="nav-links">
+      <li><a href="#hero">Accueil</a></li>
+      <li><a href="#search">Rechercher</a></li>
+      <li><a href="#offres">Offres</a></li>
+      <li><a href="#carte">Carte</a></li>
+      <li><a href="#installation">Installation</a></li>
+      <li><a href="#proprietaire">Proposer</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="btn-ghost" onclick="openModal('loginModal')">Connexion</button>
+      <button class="btn-primary" onclick="openModal('loginModal')">Inscription</button>
+    </div>
+    <button class="hamburger" onclick="toggleMobileMenu()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ===================== HERO SECTION ===================== -->
+<section class="hero" id="hero">
+  <div class="hero-bg">
+    <div class="grid-overlay"></div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="pulse-dot"></span>
+      Plateforme intelligente de services automobiles
+    </div>
+    <h1 class="hero-title">
+      <span class="text-blue">Abri</span><span class="text-gold">Car</span>
+    </h1>
+    <p class="hero-subtitle">Abri, recharge et services intelligents pour votre voiture.</p>
+    <p class="hero-desc">Transformez votre espace en mini station de service locale. Trouvez un garage, rechargez votre véhicule ou faites installer une borne chez vous.</p>
+
+    <!-- Hero Search Bar -->
+    <div class="hero-search">
+      <div class="search-wrapper">
+        <div class="search-icon">⚡</div>
+        <input type="text" id="heroSearch" placeholder="Que recherchez-vous ? Garage, recharge, installation..." class="search-input" autocomplete="off" />
+        <div class="search-suggestions" id="searchSuggestions"></div>
+      </div>
+      <button class="btn-search" onclick="triggerSearch()">Rechercher</button>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="quick-actions">
+      <button class="quick-btn" onclick="filterByType('abri')">
+        <span class="quick-icon">🏠</span>
+        <span>Trouver un abri</span>
+      </button>
+      <button class="quick-btn" onclick="filterByType('recharge')">
+        <span class="quick-icon">⚡</span>
+        <span>Recharge électrique</span>
+      </button>
+      <button class="quick-btn" onclick="scrollToSection('installation')">
+        <span class="quick-icon">🔌</span>
+        <span>Installer une borne</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Hero Stats -->
+  <div class="hero-stats">
+    <div class="stat-item">
+      <span class="stat-number" data-target="1248">0</span>
+      <span class="stat-label">Espaces disponibles</span>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <span class="stat-number" data-target="342">0</span>
+      <span class="stat-label">Bornes de recharge</span>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <span class="stat-number" data-target="98">0</span>
+      <span class="stat-label">Installateurs partenaires</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SERVICES SECTION ===================== -->
+<section class="services" id="services">
+  <div class="container">
+    <div class="section-header">
+      <h2>Nos <span class="text-gold">Services</span></h2>
+      <p>Une plateforme hybride unique en son genre</p>
+    </div>
+    <div class="services-grid">
+      <div class="service-card" data-aos="fade-up">
+        <div class="service-icon">🏠</div>
+        <h3>Abri & Garage</h3>
+        <p>Trouvez un abri voiture ou un garage sécurisé chez un particulier près de chez vous. Protégez votre véhicule à moindre coût.</p>
+        <ul class="service-features">
+          <li>✓ Garage fermé</li>
+          <li>✓ Abri couvert</li>
+          <li>✓ Place extérieure</li>
+          <li>✓ Accès sécurisé</li>
+        </ul>
+        <button class="btn-card" onclick="filterByType('abri')">Explorer les offres</button>
+      </div>
+      <div class="service-card featured" data-aos="fade-up" data-aos-delay="100">
+        <div class="featured-badge">⚡ Populaire</div>
+        <div class="service-icon">⚡</div>
+        <h3>Recharge Électrique</h3>
+        <p>Accédez à des prises renforcées et bornes de recharge chez des particuliers. Rechargez où vous en avez besoin.</p>
+        <ul class="service-features">
+          <li>✓ Prise renforcée T2</li>
+          <li>✓ Borne 7-22 kW</li>
+          <li>✓ Charge rapide 50kW+</li>
+          <li>✓ Suivi en temps réel</li>
+        </ul>
+        <button class="btn-card" onclick="filterByType('recharge')">Trouver une recharge</button>
+      </div>
+      <div class="service-card" data-aos="fade-up" data-aos-delay="200">
+        <div class="service-icon">🔌</div>
+        <h3>Installation Borne</h3>
+        <p>Faites installer une prise renforcée ou une borne de recharge chez vous et rentabilisez votre espace sur AbriCar.</p>
+        <ul class="service-features">
+          <li>✓ Audit technique gratuit</li>
+          <li>✓ Installateurs certifiés</li>
+          <li>✓ Aides & subventions</li>
+          <li>✓ Mise en location rapide</li>
+        </ul>
+        <button class="btn-card" onclick="scrollToSection('installation')">Demander une étude</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SEARCH & FILTER SECTION ===================== -->
+<section class="search-section" id="search">
+  <div class="container">
+    <div class="section-header">
+      <h2>Recherche <span class="text-blue">Intelligente</span></h2>
+      <p>Notre IA vous aide à trouver la meilleure option</p>
+    </div>
+    <div class="filter-bar">
+      <div class="filter-group">
+        <label>Type de service</label>
+        <select id="filterType" onchange="applyFilters()">
+          <option value="all">Tous les services</option>
+          <option value="abri">Abri voiture</option>
+          <option value="recharge">Recharge électrique</option>
+          <option value="garage">Garage sécurisé</option>
+          <option value="installation">Installation borne</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label>Prix max / jour</label>
+        <div class="range-wrapper">
+          <input type="range" id="filterPrice" min="0" max="100" value="100" oninput="updatePriceDisplay(this.value); applyFilters()" />
+          <span id="priceDisplay">100€</span>
+        </div>
+      </div>
+      <div class="filter-group">
+        <label>Disponibilité</label>
+        <select id="filterAvail" onchange="applyFilters()">
+          <option value="all">Toutes</option>
+          <option value="now">Disponible maintenant</option>
+          <option value="today">Disponible aujourd'hui</option>
+          <option value="week">Cette semaine</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label>Recharge incluse</label>
+        <label class="toggle-switch">
+          <input type="checkbox" id="filterRecharge" onchange="applyFilters()" />
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+      <button class="btn-reset" onclick="resetFilters()">Réinitialiser</button>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== OFFRES SECTION ===================== -->
+<section class="offres-section" id="offres">
+  <div class="container">
+    <div class="section-header">
+      <h2>Offres <span class="text-gold">Disponibles</span></h2>
+      <p id="offresCount">12 offres trouvées près de vous</p>
+    </div>
+    <div class="offres-grid" id="offresGrid">
+      <!-- Cards injected by JS -->
+    </div>
+  </div>
+</section>
+
+<!-- ===================== MAP SECTION ===================== -->
+<section class="map-section" id="carte">
+  <div class="container">
+    <div class="section-header">
+      <h2>Carte <span class="text-blue">Interactive</span></h2>
+      <p>Visualisez toutes les offres autour de vous</p>
+    </div>
+    <div class="map-container">
+      <div id="leafletMap"></div>
+      <div class="map-legend">
+        <h4>Légende</h4>
+        <div class="legend-item"><span class="legend-dot blue"></span> Abri / Garage</div>
+        <div class="legend-item"><span class="legend-dot gold"></span> Recharge électrique</div>
+        <div class="legend-item"><span class="legend-dot green"></span> Abri + Recharge</div>
+        <div class="legend-item"><span class="legend-dot purple"></span> Installation borne</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== INSTALLATION SECTION ===================== -->
+<section class="installation-section" id="installation">
+  <div class="container">
+    <div class="installation-grid">
+      <div class="installation-info">
+        <div class="section-badge">🔌 Pour les propriétaires</div>
+        <h2>Installez votre <span class="text-gold">borne de recharge</span></h2>
+        <p class="install-desc">AbriCar vous met en relation avec un professionnel pour installer votre solution de recharge et rentabiliser ensuite votre espace.</p>
+        <div class="install-steps">
+          <div class="step">
+            <div class="step-num">01</div>
+            <div>
+              <h4>Audit technique gratuit</h4>
+              <p>Un expert évalue votre installation électrique</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">02</div>
+            <div>
+              <h4>Installation certifiée IRVE</h4>
+              <p>Par un installateur partenaire qualifié</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">03</div>
+            <div>
+              <h4>Publiez votre offre</h4>
+              <p>Commencez à louer votre espace sur AbriCar</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">04</div>
+            <div>
+              <h4>Générez des revenus</h4>
+              <p>Rentabilisez votre installation rapidement</p>
+            </div>
+          </div>
+        </div>
+        <div class="install-aide">
+          <span class="aide-badge">💰 Jusqu'à 1 500€ d'aides disponibles</span>
+        </div>
+      </div>
+      <div class="installation-form-card">
+        <h3>Demander une étude gratuite</h3>
+        <form class="install-form" onsubmit="submitInstallation(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Prénom & Nom *</label>
+              <input type="text" placeholder="Jean Dupont" required />
+            </div>
+            <div class="form-group">
+              <label>Email *</label>
+              <input type="email" placeholder="jean@email.fr" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Adresse complète *</label>
+            <input type="text" placeholder="12 Rue de la Paix, 75001 Paris" required />
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Type d'habitation</label>
+              <select>
+                <option>Maison individuelle</option>
+                <option>Appartement avec garage</option>
+                <option>Pavillon avec parking</option>
+                <option>Immeuble collectif</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Véhicule concerné</label>
+              <select>
+                <option>Voiture électrique</option>
+                <option>Voiture hybride rechargeable</option>
+                <option>Moto électrique</option>
+                <option>Plusieurs véhicules</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Besoin principal</label>
+            <div class="checkbox-group">
+              <label class="checkbox-item">
+                <input type="checkbox" /> Prise renforcée (3,7 kW)
+              </label>
+              <label class="checkbox-item">
+                <input type="checkbox" checked /> Borne de recharge (7-22 kW)
+              </label>
+              <label class="checkbox-item">
+                <input type="checkbox" /> Borne rapide (50 kW+)
+              </label>
+              <label class="checkbox-item">
+                <input type="checkbox" /> Audit technique uniquement
+              </label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Souhaitez-vous louer ensuite votre espace sur AbriCar ?</label>
+            <div class="radio-group">
+              <label class="radio-item">
+                <input type="radio" name="louer" value="oui" checked /> 
+                <span>✅ Oui, je veux rentabiliser mon espace</span>
+              </label>
+              <label class="radio-item">
+                <input type="radio" name="louer" value="non" />
+                <span>Usage personnel uniquement</span>
+              </label>
+            </div>
+          </div>
+          <button type="submit" class="btn-submit">
+            <span>⚡ Demander une étude gratuite</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PROPRIETAIRE SECTION ===================== -->
+<section class="proprietaire-section" id="proprietaire">
+  <div class="container">
+    <div class="section-header">
+      <h2>Proposer <span class="text-gold">Mon Espace</span></h2>
+      <p>Transformez votre garage ou place en source de revenus</p>
+    </div>
+    <div class="proprietaire-grid">
+      <div class="earning-card">
+        <div class="earning-icon">💶</div>
+        <div class="earning-amount">180€</div>
+        <div class="earning-label">revenus moyens / mois</div>
+        <p>Pour un garage avec recharge à Paris</p>
+      </div>
+      <div class="publish-form-card">
+        <h3>Publier mon offre</h3>
+        <form class="publish-form" onsubmit="submitProprietary(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Adresse de l'espace</label>
+              <input type="text" placeholder="15 Rue Voltaire, 75011 Paris" />
+            </div>
+            <div class="form-group">
+              <label>Type d'espace</label>
+              <select>
+                <option>Garage fermé</option>
+                <option>Abri voiture</option>
+                <option>Place extérieure</option>
+                <option>Place couverte</option>
+                <option>Box sécurisé</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Tarif par heure (€)</label>
+              <input type="number" placeholder="2.50" min="0" step="0.5" />
+            </div>
+            <div class="form-group">
+              <label>Tarif par jour (€)</label>
+              <input type="number" placeholder="15" min="0" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Équipements disponibles</label>
+            <div class="checkbox-group">
+              <label class="checkbox-item"><input type="checkbox" /> ⚡ Recharge électrique</label>
+              <label class="checkbox-item"><input type="checkbox" /> 🔒 Fermeture sécurisée</label>
+              <label class="checkbox-item"><input type="checkbox" /> 📷 Vidéosurveillance</label>
+              <label class="checkbox-item"><input type="checkbox" /> 💡 Éclairage</label>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Disponibilité</label>
+              <select>
+                <option>Disponible maintenant</option>
+                <option>Jours ouvrés uniquement</option>
+                <option>Week-end uniquement</option>
+                <option>Sur réservation</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Photo de l'espace</label>
+              <input type="file" accept="image/*" class="file-input" />
+            </div>
+          </div>
+          <button type="submit" class="btn-submit">
+            <span>🚀 Publier mon offre</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <img src="AbriCar.jpeg" alt="AbriCar" class="footer-logo" />
+        <p>Abri, recharge et services intelligents pour votre voiture.</p>
+        <p class="footer-creator">Concept protégé INPI<br/>par <strong>Hayet Gautier</strong> – Jonas Browser High-Tech</p>
+        <div class="social-links">
+          <a href="#">LinkedIn</a>
+          <a href="#">Twitter</a>
+          <a href="#">Instagram</a>
+        </div>
+      </div>
+      <div class="footer-links">
+        <h4>Services</h4>
+        <ul>
+          <li><a href="#">Trouver un abri</a></li>
+          <li><a href="#">Recharge électrique</a></li>
+          <li><a href="#">Installation borne</a></li>
+          <li><a href="#">Espace propriétaire</a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <h4>Entreprise</h4>
+        <ul>
+          <li><a href="#">À propos</a></li>
+          <li><a href="#">Partenaires</a></li>
+          <li><a href="#">Investisseurs</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <h4>Légal</h4>
+        <ul>
+          <li><a href="#">Mentions légales</a></li>
+          <li><a href="#">CGU</a></li>
+          <li><a href="#">RGPD</a></li>
+          <li><a href="#">Cookies</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 AbriCar – Tous droits réservés. Concept protégé INPI. Réalisé par Jonas Browser High-Tech – Hayet Gautier.</p>
+    </div>
+  </div>
+</footer>
+
+<!-- ===================== AI CHAT WIDGET ===================== -->
+<div class="ai-chat-widget" id="aiWidget">
+  <div class="chat-header" onclick="toggleChat()">
+    <div class="chat-avatar">
+      <span class="ai-pulse"></span>
+      ⚡
+    </div>
+    <div class="chat-title">
+      <span>Assistant AbriCar IA</span>
+      <span class="chat-status">En ligne</span>
+    </div>
+    <button class="chat-toggle-btn" id="chatToggleBtn">▲</button>
+  </div>
+  <div class="chat-body" id="chatBody">
+    <div class="chat-messages" id="chatMessages">
+      <div class="chat-msg bot">
+        <div class="msg-avatar">⚡</div>
+        <div class="msg-content">
+          Bonjour ! Je suis l'assistant AbriCar. Je peux vous aider à trouver un abri, une recharge électrique ou à installer une borne. Comment puis-je vous aider ?
+        </div>
+      </div>
+    </div>
+    <div class="chat-suggestions" id="chatSuggestions">
+      <button onclick="sendSuggestion(this)">🔌 Recharge électrique près de moi</button>
+      <button onclick="sendSuggestion(this)">🏠 Garage sécurisé 2 jours</button>
+      <button onclick="sendSuggestion(this)">💰 Option la moins chère</button>
+      <button onclick="sendSuggestion(this)">⚡ Installer une borne chez moi</button>
+      <button onclick="sendSuggestion(this)">🕐 Disponible ce soir</button>
+    </div>
+    <div class="chat-input-area">
+      <input type="text" id="chatInput" placeholder="Posez votre question..." onkeypress="if(event.key==='Enter')sendMessage()" />
+      <button onclick="sendMessage()" class="chat-send">➤</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== MODALS ===================== -->
+
+<!-- Offer Detail Modal -->
+<div class="modal-overlay" id="offerModal" onclick="closeModalOutside(event, 'offerModal')">
+  <div class="modal modal-large">
+    <button class="modal-close" onclick="closeModal('offerModal')">✕</button>
+    <div id="offerModalContent"></div>
+  </div>
+</div>
+
+<!-- Booking Modal -->
+<div class="modal-overlay" id="bookingModal" onclick="closeModalOutside(event, 'bookingModal')">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('bookingModal')">✕</button>
+    <h2>Réserver cet espace</h2>
+    <div id="bookingOfferInfo" class="booking-offer-info"></div>
+    <form class="booking-form" onsubmit="goToPayment(event)">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Date d'arrivée</label>
+          <input type="date" id="bookingDate" required />
+        </div>
+        <div class="form-group">
+          <label>Heure d'arrivée</label>
+          <input type="time" id="bookingTime" value="09:00" required />
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Durée</label>
+        <select id="bookingDuration" onchange="calculateTotal()">
+          <option value="1h">1 heure</option>
+          <option value="2h">2 heures</option>
+          <option value="4h">4 heures</option>
+          <option value="1j">1 jour</option>
+          <option value="2j">2 jours</option>
+          <option value="1s">1 semaine</option>
+        </select>
+      </div>
+      <div class="booking-total">
+        <span>Total estimé :</span>
+        <span class="total-price" id="totalPrice">12€</span>
+      </div>
+      <button type="submit" class="btn-submit">Procéder au paiement ➤</button>
+    </form>
+  </div>
+</div>
+
+<!-- Payment Modal -->
+<div class="modal-overlay" id="paymentModal" onclick="closeModalOutside(event, 'paymentModal')">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('paymentModal')">✕</button>
+    <h2>💳 Paiement sécurisé</h2>
+    <div class="payment-badges">
+      <span>🔒 SSL</span>
+      <span>💳 Visa</span>
+      <span>💳 Mastercard</span>
+      <span>📱 Apple Pay</span>
+    </div>
+    <form class="payment-form" onsubmit="confirmPayment(event)">
+      <div class="form-group">
+        <label>Nom sur la carte</label>
+        <input type="text" placeholder="Jean Dupont" required />
+      </div>
+      <div class="form-group">
+        <label>Numéro de carte (simulation)</label>
+        <input type="text" placeholder="4242 4242 4242 4242" maxlength="19" oninput="formatCard(this)" required />
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Expiration</label>
+          <input type="text" placeholder="MM/AA" maxlength="5" required />
+        </div>
+        <div class="form-group">
+          <label>CVV</label>
+          <input type="text" placeholder="123" maxlength="3" required />
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Email de confirmation</label>
+        <input type="email" placeholder="jean@email.fr" required />
+      </div>
+      <div class="payment-summary" id="paymentSummary">
+        Total : <strong id="payTotal">12€</strong>
+      </div>
+      <button type="submit" class="btn-submit btn-pay">
+        🔒 Payer maintenant
+      </button>
+    </form>
+  </div>
+</div>
+
+<!-- Confirmation Modal -->
+<div class="modal-overlay" id="confirmationModal" onclick="closeModalOutside(event, 'confirmationModal')">
+  <div class="modal modal-confirm">
+    <div class="confirm-icon">✅</div>
+    <h2>Réservation confirmée !</h2>
+    <p class="confirm-text">Votre réservation AbriCar est confirmée.</p>
+    <div class="confirm-details" id="confirmDetails"></div>
+    <p class="confirm-email">Un email de confirmation vous a été envoyé.</p>
+    <button class="btn-submit" onclick="closeAllModals()">Retour à l'accueil</button>
+  </div>
+</div>
+
+<!-- Login Modal -->
+<div class="modal-overlay" id="loginModal" onclick="closeModalOutside(event, 'loginModal')">
+  <div class="modal modal-small">
+    <button class="modal-close" onclick="closeModal('loginModal')">✕</button>
+    <div class="login-logo">⚡</div>
+    <h2>Connexion AbriCar</h2>
+    <form class="login-form" onsubmit="fakeLogin(event)">
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" placeholder="vous@email.fr" required />
+      </div>
+      <div class="form-group">
+        <label>Mot de passe</label>
+        <input type="password" placeholder="••••••••" required />
+      </div>
+      <button type="submit" class="btn-submit">Se connecter</button>
+      <p class="login-sep">Pas encore inscrit ? <a href="#" onclick="closeModal('loginModal')">Créer un compte</a></p>
+    </form>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
